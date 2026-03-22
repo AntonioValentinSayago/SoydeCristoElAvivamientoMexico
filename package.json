@@ -1,0 +1,42 @@
+{
+  "name": "soydecristoelavivamientomexico",
+  "version": "1.0.0",
+  "description": "Soy de Cristo el Avivamiento Mexico 2026",
+  "homepage": "https://github.com/AntonioValentinSayago/SoydeCristoElAvivamientoMexico#readme",
+  "bugs": {
+    "url": "https://github.com/AntonioValentinSayago/SoydeCristoElAvivamientoMexico/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AntonioValentinSayago/SoydeCristoElAvivamientoMexico.git"
+  },
+  "license": "ISC",
+  "author": "Iglesia Ebenezer Principe de Paz",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/index.ts",
+    "dev:api": "nodemon src/index.ts --api",
+    "build": "tsc",
+    "start": "node ./dist/index.js"
+  },
+  "dependencies": {
+    "colors": "^1.4.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "express-validator": "^7.3.1",
+    "morgan": "^1.10.1",
+    "pg": "^8.20.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize-typescript": "^2.1.6"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/morgan": "^1.9.10",
+    "nodemon": "^3.1.14",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
