@@ -23,7 +23,7 @@ app.use(morgan('dev'))
 
 app.use(express.json())
 app.use(cors({
-    origin: "https://soydecristoelavivamientomexico.onrender.com",
+    origin: "https://ebenezer-soyde-cristo-mexico2026.vercel.app",
     credentials: true,
 }));
 
