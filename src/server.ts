@@ -23,7 +23,7 @@ app.use(morgan('dev'))
 
 app.use(express.json())
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "https://soydecristoelavivamientomexico.onrender.com/api/v1/shirt",
     credentials: true,
 }));
 
