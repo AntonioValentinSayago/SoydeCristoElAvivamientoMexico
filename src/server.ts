@@ -22,7 +22,8 @@ app.use(morgan('dev'))
 
 app.use(express.json())
 app.use(cors({
-    origin: "https://ebenezer-soyde-cristo-mexico2026.vercel.app",
+    //origin: "https://ebenezer-soyde-cristo-mexico2026.vercel.app",
+    origin: "http://localhost:5173",
     credentials: true,
 }));
 
