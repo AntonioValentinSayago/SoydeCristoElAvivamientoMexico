@@ -13,7 +13,7 @@
 // })
 import { Sequelize } from "sequelize-typescript";
 import dotenv from "dotenv";
-import Shirts, { Question } from "../models/shirtModel";
+import EventRegistration from "../models/shirtModel";
 
 dotenv.config();
 
@@ -21,7 +21,7 @@ export const db = new Sequelize(process.env.DATABASE_URL as string, {
   dialect: "postgres",
   protocol: "postgres",
   logging: false,
-  models: [Shirts, Question],
+  models: [EventRegistration],
   dialectOptions: {
     ssl: {
       require: false,

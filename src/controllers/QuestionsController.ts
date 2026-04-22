@@ -1,10 +1,10 @@
 import type { Request, Response } from "express";
-import { Question } from "../models/shirtModel";
+import EventRegistration from "../models/shirtModel";
 
 export class QuestionsController {
     static getQuestionsAll = async (_req: Request, _res: Response) => {
         try {
-            const questions = await Question.findAll({
+            const questions = await EventRegistration.findAll({
                 order: [["id", "ASC"]],
             });
 
@@ -34,7 +34,7 @@ export class QuestionsController {
                 });
             }
 
-            const createdQuestions = await Question.bulkCreate(questions, {
+            const createdQuestions = await EventRegistration.bulkCreate(questions, {
                 validate: true,
             });
 
