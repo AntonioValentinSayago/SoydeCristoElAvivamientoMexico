@@ -1,11 +1,11 @@
-import { Router } from "express";
-import { QuestionsController } from "../controllers/QuestionsController";
+// import { Router } from "express";
+// import { QuestionsController } from "../controllers/QuestionsController";
 
-const router = Router();
+// const router = Router();
 
-router.get('/', QuestionsController.getQuestionsAll )
+// router.get('/', QuestionsController.getQuestionsAll )
 
-router.post('/', QuestionsController.create)
+// router.post('/', QuestionsController.create)
 
 
-export default router
+// export default router

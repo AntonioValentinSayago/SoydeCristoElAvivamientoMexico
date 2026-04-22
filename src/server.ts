@@ -2,8 +2,8 @@ import express from 'express'
 import colors from 'colors'
 import morgan from 'morgan'
 import { db } from './config/db'
-import QuestionsRouter from './routes/QuestionsRouter'
-import ShirtRouter from './routes/ShirtRouter'
+// import QuestionsRouter from './routes/QuestionsRouter'
+// import ShirtRouter from './routes/ShirtRouter'
 import RegisterRouter from './routes/RegisterRouter'
 import cors from 'cors';
 
@@ -28,8 +28,8 @@ app.use(cors({
     credentials: true,
 }));
 
-app.use('/api/v1/shirts', ShirtRouter)
-app.use('/api/v1/questions', QuestionsRouter)
+// app.use('/api/v1/shirts', ShirtRouter)
+// app.use('/api/v1/questions', QuestionsRouter)
 app.use('/api/v1/register', RegisterRouter)
 
 export default app
