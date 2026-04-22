@@ -17,12 +17,15 @@ const generateFolio = () => {
 export class EventRegistrationController {
   static create = async (req: Request, res: Response) => {
     try {
-      const { fullName, phone, willAttend } = req.body;
+      const { fullName, phone, willAttend, churchName } = req.body;
 
-      if (!fullName || !phone || !willAttend) {
+      /**
+       * Validaciones
+       */
+      if (!fullName || !phone || !willAttend || !churchName) {
         return res.status(400).json({
           success: false,
-          message: "fullName, phone y willAttend son obligatorios",
+          message: "fullName, phone, churchName y willAttend son obligatorios",
         });
       }
 
@@ -34,7 +37,7 @@ export class EventRegistrationController {
       }
 
       /**
-       * Validar duplicado
+       * Validar duplicado por teléfono
        */
       const existing = await EventRegistration.findOne({
         where: { phone },
@@ -69,12 +72,16 @@ export class EventRegistrationController {
       const newRegistration = await EventRegistration.create({
         fullName: fullName.trim(),
         phone: phone.trim(),
+        churchName: churchName.trim(), // 🔥 NUEVO CAMPO
         willAttend,
         folio,
       });
 
       console.log("REGISTRO GUARDADO:", newRegistration.toJSON());
 
+      /**
+       * Response limpio
+       */
       return res.status(201).json({
         success: true,
         message: "Registro exitoso",
@@ -82,6 +89,7 @@ export class EventRegistrationController {
           folio: newRegistration.folio,
           fullName: newRegistration.fullName,
           phone: newRegistration.phone,
+          churchName: newRegistration.churchName, // 🔥 IMPORTANTE
           willAttend: newRegistration.willAttend,
         },
       });
@@ -96,7 +104,7 @@ export class EventRegistrationController {
   };
 
   /**
-   * DEBUG endpoint (MUY IMPORTANTE)
+   * DEBUG endpoint
    */
   static getAll = async (_req: Request, res: Response) => {
     const data = await EventRegistration.findAll({

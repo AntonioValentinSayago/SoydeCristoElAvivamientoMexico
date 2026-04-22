@@ -17,6 +17,7 @@ export type AttendanceOption = "si" | "no";
   timestamps: true,
 })
 class EventRegistration extends Model<EventRegistration> {
+  
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.INTEGER)
@@ -35,6 +36,11 @@ class EventRegistration extends Model<EventRegistration> {
   @Unique
   @Column(DataType.STRING(20))
   declare phone: string;
+
+  // 🔥 NUEVO CAMPO
+  @AllowNull(false)
+  @Column(DataType.STRING(150))
+  declare churchName: string;
 
   @AllowNull(false)
   @Column(DataType.ENUM("si", "no"))
