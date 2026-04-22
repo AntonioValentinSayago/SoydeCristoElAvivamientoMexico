@@ -28,8 +28,7 @@ app.use(cors({
     credentials: true,
 }));
 
-// app.use('/api/v1/shirts', ShirtRouter)
-// app.use('/api/v1/questions', QuestionsRouter)
+
 app.use('/api/v1/register', RegisterRouter)
 
 export default app
