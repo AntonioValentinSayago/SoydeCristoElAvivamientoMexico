@@ -17,15 +17,23 @@ const generateFolio = () => {
 export class EventRegistrationController {
   static create = async (req: Request, res: Response) => {
     try {
-      const { fullName, phone, willAttend, churchName } = req.body;
+      const {
+        fullName,
+        phone,
+        willAttend,
+        churchName,
+        hasCompanions,
+        companionsCount,
+      } = req.body;
 
       /**
-       * Validaciones
+       * 🔥 VALIDACIONES BASE
        */
       if (!fullName || !phone || !willAttend || !churchName) {
         return res.status(400).json({
           success: false,
-          message: "fullName, phone, churchName y willAttend son obligatorios",
+          message:
+            "fullName, phone, churchName y willAttend son obligatorios",
         });
       }
 
@@ -37,7 +45,39 @@ export class EventRegistrationController {
       }
 
       /**
-       * Validar duplicado por teléfono
+       * 🔥 NORMALIZAR DATOS DE ACOMPAÑANTES
+       */
+      const hasCompanionsNormalized = Boolean(hasCompanions);
+      const companionsCountNormalized = Number(companionsCount) || 0;
+
+      /**
+       * 🔥 REGLAS DE NEGOCIO
+       */
+      if (!hasCompanionsNormalized && companionsCountNormalized > 0) {
+        return res.status(400).json({
+          success: false,
+          message:
+            "No puedes enviar acompañantes si no marcaste que vienes acompañado",
+        });
+      }
+
+      if (hasCompanionsNormalized && companionsCountNormalized <= 0) {
+        return res.status(400).json({
+          success: false,
+          message:
+            "Debes indicar al menos 1 acompañante si marcaste que vienes acompañado",
+        });
+      }
+
+      if (companionsCountNormalized < 0) {
+        return res.status(400).json({
+          success: false,
+          message: "El número de acompañantes no puede ser negativo",
+        });
+      }
+
+      /**
+       * 🔥 VALIDAR DUPLICADO
        */
       const existing = await EventRegistration.findOne({
         where: { phone },
@@ -51,7 +91,7 @@ export class EventRegistrationController {
       }
 
       /**
-       * Generar folio único
+       * 🔥 GENERAR FOLIO ÚNICO
        */
       let folio = generateFolio();
 
@@ -67,20 +107,22 @@ export class EventRegistrationController {
       }
 
       /**
-       * Crear registro
+       * 🔥 CREAR REGISTRO
        */
       const newRegistration = await EventRegistration.create({
         fullName: fullName.trim(),
         phone: phone.trim(),
-        churchName: churchName.trim(), // 🔥 NUEVO CAMPO
+        churchName: churchName.trim(),
         willAttend,
         folio,
+        hasCompanions: hasCompanionsNormalized,
+        companionsCount: companionsCountNormalized,
       });
 
       console.log("REGISTRO GUARDADO:", newRegistration.toJSON());
 
       /**
-       * Response limpio
+       * 🔥 RESPONSE LIMPIO
        */
       return res.status(201).json({
         success: true,
@@ -89,8 +131,11 @@ export class EventRegistrationController {
           folio: newRegistration.folio,
           fullName: newRegistration.fullName,
           phone: newRegistration.phone,
-          churchName: newRegistration.churchName, // 🔥 IMPORTANTE
+          churchName: newRegistration.churchName,
           willAttend: newRegistration.willAttend,
+          hasCompanions: newRegistration.hasCompanions,
+          companionsCount: newRegistration.companionsCount,
+          totalPersonas: 1 + newRegistration.companionsCount, // 🔥 útil para frontend
         },
       });
     } catch (error: any) {
