@@ -149,16 +149,29 @@ export class EventRegistrationController {
   };
 
   /**
-   * DEBUG endpoint
-   */
+     * 🔥 Obtener todos los registros
+     */
   static getAll = async (_req: Request, res: Response) => {
-    const data = await EventRegistration.findAll({
-      order: [["id", "DESC"]],
-    });
+    try {
+      const registrations = await EventRegistration.findAll({
+        order: [["id", "DESC"]],
+      });
 
-    return res.json({
-      total: data.length,
-      data,
-    });
+      return res.status(200).json({
+        success: true,
+        code: 200,
+        total: registrations.length,
+        data: registrations,
+      });
+
+    } catch (error) {
+      console.error("ERROR getAll:", error);
+
+      return res.status(500).json({
+        success: false,
+        code: 500,
+        message: "Error al obtener registros",
+      });
+    }
   };
 }
