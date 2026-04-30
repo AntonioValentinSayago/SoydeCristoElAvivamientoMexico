@@ -5,6 +5,7 @@ import { db } from './config/db'
 // import QuestionsRouter from './routes/QuestionsRouter'
 // import ShirtRouter from './routes/ShirtRouter'
 import RegisterRouter from './routes/RegisterRouter'
+import MemberRouter from './routes/MemberRouter'
 import cors from 'cors';
 
 async function connectionDB() {
@@ -22,6 +23,11 @@ const app = express()
 app.use(morgan('dev'))
 
 app.use(express.json())
+
+const allowedOrigins = [
+    "https://ebenezer-soyde-cristo-mexico2026.vercel.app",
+    "http://localhost:5173",
+];
 app.use(cors({
     origin: "https://ebenezer-soyde-cristo-mexico2026.vercel.app",
     //origin: "http://localhost:5173",
@@ -30,5 +36,7 @@ app.use(cors({
 
 
 app.use('/api/v1/register', RegisterRouter)
+
+app.use('/api/v1/ebenezer', MemberRouter)
 
 export default app
