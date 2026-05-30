@@ -29,7 +29,7 @@ const allowedOrigins = [
     "http://localhost:5173",
 ];
 app.use(cors({
-    origin: "https://ebenezer-soyde-cristo-mexico2026.vercel.app",
+    origin: "https://ebenezerprincipedepaz-chalco-mx.vercel.app/",
     //origin: "http://localhost:5173",
     credentials: true,
 }));
