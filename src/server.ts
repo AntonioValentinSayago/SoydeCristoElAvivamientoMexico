@@ -42,7 +42,6 @@ app.use(cors({
 }));
 
 app.use('/api/v1/register', RegisterRouter)
-
 app.use('/api/v1/ebenezer', MemberRouter)
 
 export default app
