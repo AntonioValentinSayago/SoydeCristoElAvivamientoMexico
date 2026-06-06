@@ -1,14 +1,20 @@
 import { Sequelize } from "sequelize-typescript";
 import dotenv from "dotenv";
-import pg from "pg"; // Importamos el driver nativo directamente
+import pg from "pg";
 import EventRegistration from "../models/shirtModel";
 import { Member } from "../models/MemberModel";
 
 dotenv.config();
 
-export const db = new Sequelize(process.env.DATABASE_URL as string, {
+// Validación de seguridad para saber si Render leyó la variable
+const dbUrl = process.env.DATABASE_URL;
+if (!dbUrl) {
+  console.error("❌ ERROR: La variable DATABASE_URL no está configurada en el entorno.");
+}
+
+export const db = new Sequelize(dbUrl!, {
   dialect: "postgres",
-  dialectModule: pg, // Crucial en entornos serverless/PaaS como Render
+  dialectModule: pg,
   logging: false,
   models: [EventRegistration, Member],
   dialectOptions: {
@@ -16,12 +22,12 @@ export const db = new Sequelize(process.env.DATABASE_URL as string, {
       require: true,
       rejectUnauthorized: false,
     },
-    keepAlive: true, // Evita que Render mate los sockets inactivos abruptamente
+    keepAlive: true,
   },
   pool: {
     max: 5,
     min: 0,
     acquire: 30000,
-    idle: 10000, // Si una conexión pasa 10s sin usarse, se destruye y se crea una nueva limpia
+    idle: 10000,
   },
 });
