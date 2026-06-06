@@ -2,7 +2,6 @@ import express from 'express'
 import colors from 'colors'
 import morgan from 'morgan'
 import { db } from './config/db'
-import RegisterRouter from './routes/RegisterRouter'
 import MemberRouter from './routes/MemberRouter'
 import cors from 'cors';
 
@@ -41,7 +40,6 @@ app.use(cors({
     credentials: true,
 }));
 
-app.use('/api/v1/register', RegisterRouter)
 app.use('/api/v1/ebenezer', MemberRouter)
 
 export default app
