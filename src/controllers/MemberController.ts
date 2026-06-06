@@ -8,7 +8,6 @@ export class MemberController {
     static getAll = async (_req: Request, res: Response) => {
         try {
             const members = await Member.findAll();
-
             return res.status(200).json({
                 success: true,
                 code: 200,
@@ -202,52 +201,65 @@ export class MemberController {
     };
 
     /**
-     * Deshabilitar / Activar miembro (soft delete)
+     * Cambiar estado de cobertura del miembro
+     * true  -> false (Deshabilitar)
+     * false -> true  (Reactivar)
      */
-    static toggleStatus = async (req: Request, res: Response) => {
+    static toggleCoverage = async (
+        req: Request,
+        res: Response
+    ): Promise<Response> => {
         try {
-            const id = Number(req.params.id);
+            const memberId = Number(req.params.id);
 
-            if (isNaN(id)) {
+            if (!Number.isInteger(memberId) || memberId <= 0) {
                 return res.status(400).json({
                     success: false,
-                    message: "ID inválido",
+                    code: 400,
+                    message: "El ID del miembro es inválido",
                 });
             }
 
-            const member = await Member.findByPk(id);
+            const member = await Member.findOne({
+                where: { id: memberId },
+            });
 
             if (!member) {
                 return res.status(404).json({
                     success: false,
+                    code: 404,
                     message: "Miembro no encontrado",
                 });
             }
 
-            // 🔥 IMPORTANTE: calcular nuevo estado
-            const newStatus = !member.getDataValue("cobertura");
+            const currentCoverage = member.cobertura;
+            const newCoverage = !currentCoverage;
 
-            // 🔥 UPDATE DIRECTO EN BD
-            await Member.update(
-                { cobertura: newStatus },
-                { where: { id } }
-            );
+            await member.update({
+                cobertura: newCoverage,
+            });
 
             return res.status(200).json({
                 success: true,
-                message: `Miembro ${newStatus ? "activado" : "deshabilitado"}`,
+                code: 200,
+                message: newCoverage
+                    ? "Miembro reactivado correctamente"
+                    : "Miembro deshabilitado correctamente",
                 data: {
-                    id,
-                    cobertura: newStatus,
+                    id: member.id,
+                    nombreCompleto: `${member.nombres} ${member.apellido_paterno} ${member.apellido_materno}`,
+                    cobertura: newCoverage,
+                    updatedAt: new Date(),
                 },
             });
 
         } catch (error) {
-            console.error("TOGGLE MEMBER STATUS ERROR:", error);
+            console.error("MEMBER TOGGLE COVERAGE ERROR:", error);
 
             return res.status(500).json({
                 success: false,
-                message: "Error al actualizar el estado",
+                code: 500,
+                message: "Error interno del servidor",
             });
         }
     };
