@@ -235,10 +235,18 @@ export class MemberController {
             const currentCoverage = member.cobertura;
             const newCoverage = !currentCoverage;
 
+            console.log({
+                id: member.id,
+                coberturaActual: member.cobertura,
+            });
+
             await member.update({
                 cobertura: newCoverage,
             });
 
+            console.log({
+                nuevaCobertura: newCoverage,
+            });
             return res.status(200).json({
                 success: true,
                 code: 200,
