@@ -232,13 +232,16 @@ export class MemberController {
                 });
             }
 
-            const currentCoverage = member.cobertura;
+            const currentCoverage =
+                member.getDataValue("cobertura");
             const newCoverage = !currentCoverage;
 
             console.log({
                 id: member.id,
                 coberturaActual: member.cobertura,
             });
+            console.log(member.toJSON());
+            console.log(member.dataValues);
 
             await member.update({
                 cobertura: newCoverage,
