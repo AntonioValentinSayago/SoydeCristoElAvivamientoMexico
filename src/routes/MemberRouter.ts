@@ -7,7 +7,7 @@ const router = Router();
 router.get('/', MemberController.getAll);
 
 router.patch(
-    "/members/:id/toggle-coverage",
+    "/member/:id/toggle-coverage",
     MemberController.toggleCoverage
 );
 
