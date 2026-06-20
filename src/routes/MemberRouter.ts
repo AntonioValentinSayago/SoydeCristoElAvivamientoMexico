@@ -11,4 +11,6 @@ router.patch(
     MemberController.toggleCoverage
 );
 
+router.get("/member/:id", MemberController.getProfile);
+
 export default router;
