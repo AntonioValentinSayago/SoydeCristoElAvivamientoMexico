@@ -12,5 +12,6 @@ router.patch(
 );
 
 router.get("/member/:id", MemberController.getProfile);
+router.post("/member", MemberController.createMember);
 
 export default router;
