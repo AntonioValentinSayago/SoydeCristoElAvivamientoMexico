@@ -231,11 +231,18 @@ export class MemberController {
             });
 
         } catch (error) {
-            console.error("CREATE MEMBER ERROR:", error);
+            console.error("CREATE MEMBER ERROR:");
+            console.error(error);
+
+            if (error instanceof Error) {
+                console.error(error.message);
+                console.error(error.stack);
+            }
+
             return res.status(500).json({
                 success: false,
                 code: 500,
-                message: "Error interno del servidor",
+                message: error instanceof Error ? error.message : "Error interno del servidor",
             });
         }
 
