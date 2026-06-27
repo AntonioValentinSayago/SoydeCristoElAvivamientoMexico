@@ -6,11 +6,11 @@ import {
   PrimaryKey,
   AutoIncrement,
   CreatedAt,
-} from 'sequelize-typescript';
+} from "sequelize-typescript";
 
 @Table({
-  tableName: 'members',
-  timestamps: false, // puedes cambiar a true si manejarás updatedAt
+  tableName: "members",
+  timestamps: false,
 })
 export class Member extends Model<Member> {
   @PrimaryKey
@@ -18,70 +18,148 @@ export class Member extends Model<Member> {
   @Column(DataType.INTEGER)
   declare id: number;
 
-  @Column(DataType.STRING)
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
   nombres!: string;
 
-  @Column(DataType.STRING)
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
   apellido_paterno!: string;
 
-  @Column(DataType.STRING)
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
   apellido_materno!: string;
 
-  @Column(DataType.INTEGER)
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+    validate: {
+    min: 0,
+    max: 130,
+  },
+  })
   edad!: number;
 
-  @Column(DataType.STRING)
-  curp!: string;
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+    unique: true,
+  })
+  curp!: string | null;
 
-  @Column(DataType.DATEONLY)
+  @Column({
+    type: DataType.DATEONLY,
+    allowNull: false,
+  })
   fecha_nacimiento!: string;
 
-  @Column(DataType.BOOLEAN)
+  @Column({
+    type: DataType.BOOLEAN,
+    allowNull: false,
+  })
   bautizado!: boolean;
 
-  @Column(DataType.STRING)
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
   nivel_academico!: string;
 
-  @Column(DataType.DATEONLY)
-  fecha_conversion!: string;
+  @Column({
+    type: DataType.DATEONLY,
+    allowNull: true,
+  })
+  fecha_conversion!: string | null;
 
-  @Column(DataType.STRING)
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
   ocupacion!: string;
 
-  @Column(DataType.JSON)
+  @Column({
+    type: DataType.JSON,
+    allowNull: false,
+    defaultValue: [],
+  })
   cursos!: string[];
 
-  @Column(DataType.STRING)
-  iglesia_anterior!: string;
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  iglesia_anterior!: string | null;
 
-  @Column(DataType.TEXT)
-  razon_salida!: string;
+  @Column({
+    type: DataType.TEXT,
+    allowNull: true,
+  })
+  razon_salida!: string | null;
 
-  @Column(DataType.JSON)
+  @Column({
+    type: DataType.JSON,
+    allowNull: false,
+    defaultValue: [],
+  })
   talentos_json!: string[];
 
-  @Column(DataType.STRING)
-  correo!: string;
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+    unique: true,
+  })
+  correo!: string | null;
 
-  @Column(DataType.STRING)
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+    unique: true,
+  })
   telefono!: string;
 
-  @Column(DataType.STRING)
-  tipo_sangre!: string;
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  tipo_sangre!: string | null;
 
-  @Column(DataType.STRING)
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
   estado_civil!: string;
 
-  @Column(DataType.STRING)
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
   genero!: string;
 
   @CreatedAt
-  @Column(DataType.DATE)
+  @Column({
+    type: DataType.DATE,
+    allowNull: false,
+    defaultValue: DataType.NOW,
+  })
   created_at!: Date;
 
-  @Column(DataType.JSON)
+  @Column({
+    type: DataType.JSON,
+    allowNull: false,
+    defaultValue: [],
+  })
   ministerios_json!: string[];
 
-  @Column(DataType.BOOLEAN)
+  @Column({
+    type: DataType.BOOLEAN,
+    allowNull: false,
+    defaultValue: true,
+  })
   cobertura!: boolean;
 }

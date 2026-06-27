@@ -1,5 +1,7 @@
 import type { Request, Response } from "express";
 import { Member } from "../models/MemberModel";
+import { MemberHelper } from "../helpers/date.helper";
+
 
 export class MemberController {
     /**
@@ -137,6 +139,7 @@ export class MemberController {
     };
 
     /** Controller for member-related operations */
+
     static async createMember(req: Request, res: Response): Promise<Response> {
         try {
             const {
@@ -195,14 +198,16 @@ export class MemberController {
                 }
 
             }
+            const edadCalculada = MemberHelper.calculateAge(
+                fecha_nacimiento
+            );
 
             // ? Se validara el Telefono Repetido y el CURP Repetido
             const member = await Member.create({
-
                 nombres,
                 apellido_paterno,
                 apellido_materno,
-                edad,
+                edad: edadCalculada,
                 curp,
                 fecha_nacimiento,
                 bautizado,
