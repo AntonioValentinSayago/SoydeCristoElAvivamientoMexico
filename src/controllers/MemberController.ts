@@ -194,13 +194,17 @@ export class MemberController {
                         success: false,
                         message: "El correo ya se encuentra registrado."
                     });
-
                 }
 
             }
             const edadCalculada = MemberHelper.calculateAge(
                 fecha_nacimiento
             );
+
+            console.log({
+                fecha_nacimiento,
+                edadCalculada
+            });
 
             // ? Se validara el Telefono Repetido y el CURP Repetido
             const member = await Member.create({
